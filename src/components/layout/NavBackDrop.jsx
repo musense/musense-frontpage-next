@@ -18,7 +18,7 @@ export default function NavBackDrop({ active, unCheck }) {
         navBackdropRef.current.addEventListener("wheel", navBackdropHandler)
         navBackdropRef.current.addEventListener("scroll", navBackdropHandler)
       }
-    }, [navBackdropRef]);
+    }, [navBackdropRef, navBackdropHandler]);
   
   
     return <div ref={navBackdropRef} id="nav-backdrop" className={`${active ? 'active' : ''}`} />;

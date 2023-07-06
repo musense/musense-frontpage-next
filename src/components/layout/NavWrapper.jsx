@@ -33,7 +33,6 @@ export default function NavWrapper({ active, pathname, unCheck, headerForceHide 
     const clientWidth = state.clientWidth
     if (clientWidth <= 768)
       offset = -80
-      // offset = -2000
     return offset;
   }, [state.clientWidth])
   console.log("🚀 ~ file: NavWrapper.jsx:39 ~ contactUsOffset ~ contactUsOffset:", contactUsOffset)
@@ -51,7 +50,7 @@ export default function NavWrapper({ active, pathname, unCheck, headerForceHide 
         li.addEventListener("touchstart", liHandler)
       })
     }
-  }, [navRef.current]);
+  }, [navRef, navHandler]);
 
   const callbackHandler = useCallback((e) => {
     unCheck()

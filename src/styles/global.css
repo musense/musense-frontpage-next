@@ -1,7 +1,7 @@
 html {
     font-size: 62.5%;
     overflow: auto;
-    scroll-padding-top: 80px;
+    scroll-padding-top: 150px;
     scroll-behavior: smooth;
 }
 
@@ -985,9 +985,10 @@ a {
 }
 
 @media (max-width: 768px) {
-    html{
-        scroll-padding-top: var(--header-height);
-        /* scroll-margin-top: 10rem; */
+    html {
+        overflow: auto;
+        scroll-padding-top: 8rem;
+        scroll-behavior: smooth;
     }
     .btn-marketing-wrapper.content {
         width: 74vw;

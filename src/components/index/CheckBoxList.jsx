@@ -35,7 +35,7 @@ export default function CheckBoxList({ styles, checkBoxListRef }) {
 
         console.log("🚀 ~ file: contactUs.jsx:64 ~ onCheckBoxChange ~ checkBoxListRef.current:", checkBoxListRef.current)
 
-    }, [checkList])
+    }, [checkBoxListRef,checkList])
 
     return <div data-title="合作需求（可複選）" className={`${styles['enter-checkbox-list']}`}>
         {

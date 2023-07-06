@@ -11,6 +11,7 @@ export default function Modal({
     console.log('🚀 ~ file: modal.jsx:10 ~ headerContent:', headerContent)
 
     const modalRef = useRef(null);
+    const closeButtonRef = useRef(null);
     const modalShowClassRef = useRef('hide')
     const modalHeaderClassRef = useRef('success')
 
@@ -19,12 +20,13 @@ export default function Modal({
 
 
     useEffect(() => {
-        if (modalRef.current === null) {
+        if (modalRef.current === null || closeButtonRef.current === null) {
             // modalRef.current = id
         } else {
             const root = document.getElementById('root')
             const modal = modalRef.current
-            const modalCloseButton = document.getElementById('close-button')
+            // const modalCloseButton = document.getElementById('close-button')
+            const modalCloseButton = closeButtonRef.current
             root.appendChild(modal)
             modalCloseButton.addEventListener('click', () => closeModal())
         }
@@ -33,13 +35,13 @@ export default function Modal({
         return () => {
             root.removeChild(nodeRef)
         }
-    }, [modalRef]);
+    }, [modalRef, closeButtonRef, closeModal]);
 
     return (
         <div ref={modalRef} className={`${styles['modal-layout']} ${styles[modalShowClassRef.current]}`}>
             <div className={styles['modal-wrapper']}>
                 <div className={styles['modal-container']}>
-                    <div id="close-button" className={styles['modal-close']} />
+                    <div ref={closeButtonRef} className={styles['modal-close']} />
                     <div className={`${styles['modal-header']} ${styles[modalHeaderClassRef.current]}`}>
                         {headerContent}
                     </div>
