@@ -1,9 +1,9 @@
-// import { Context } from '@store/context';
+import { Context } from '@store/context';
 import '@styles/global.css';
 import Script from 'next/script';
 
 export default function MyApp({ Component, pageProps }) {
-  
+
   return (
     <>
       <Script
@@ -21,9 +21,9 @@ export default function MyApp({ Component, pageProps }) {
             gtag('config', 'GTM-PQVK3G7');
         `}
       </Script>
-      {/* <Context> */}
+      <Context>
         <Component {...pageProps} />
-      {/* </Context> */}
+      </Context>
     </>
   );
 }

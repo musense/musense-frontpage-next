@@ -1,28 +1,52 @@
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import React from 'react';
+import Link from 'next/link';
 
-export default function Card({ id, imgSrc, imgAltText, tag, content, createDate }) {
+export default function Card({
+  id,
+  image,
+  content
+}) {
+  const {
+    homeImagePath, tags, createDate, title, altText
+  } = content;
 
-  tag ||= '';
-  content ||= '';
-  createDate ||= '';
+  console.log("🚀 ~ file: card.jsx:6 ~ content:", content)
+  console.log("🚀 ~ file: card.jsx:6 ~ Card ~ imgSrc:", image)
+
+  // const [cardImage, setCardImage] = useState(null);
+  // useEffect(() => {
+  //   imgSrc.then(res => setCardImage({ default: res.default }))
+  // }, [imgSrc]);
+  // console.log("🚀 ~ file: card.jsx:7 ~ Card ~ cardImage:", cardImage)
+  const tagNameArray = tags.reduce((acc, curr) => {
+    return [...acc, curr.name]
+
+  }, [])
   return (
-    <>
-      <a
-        className='card'
-        href={`/content/${id}`}
-      >
-        <Image className='card-img' src={imgSrc} alt={imgAltText} />
+    <Link
+      className='card'
+      href={`/contents/${id}`}
+    >
+      <div>
+        {homeImagePath && <Image
+          className='card-img'
+          src={homeImagePath}
+          width={300}
+          height={300}
+          alt={altText}
+        />
+        }
         <div className='card-content'>
           <span className='ellipsis'>
-            {content}
+            {title}
           </span>
         </div>
         <div className='card-footer'>
-          <div className='card-tag'>{tag}</div>
+          <div className='card-tag'>{tagNameArray.join(' / ')}</div>
           <div className='card-create-date'>{createDate}</div>
         </div>
-      </a>
-    </>
+      </div>
+    </Link>
   );
 }

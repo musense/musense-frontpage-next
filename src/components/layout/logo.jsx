@@ -3,6 +3,7 @@ import logo_white from '@assets/logo/logo_white.webp';
 import logo_gray from '@assets/logo/logo_gray.webp';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Logo({ active, color = 'gray', position = "header" }) {
 
@@ -26,25 +27,29 @@ export default function Logo({ active, color = 'gray', position = "header" }) {
           width={logo.width}
           height={logo.height}
           style={{
-            width: '100%',
+            width: 'auto',
+            height: '100%',
             objectFit: 'contain'
           }}
         />
       </div>
     ) :
     (
-      <a className={`${styles['logo']} ${styles[position]}`} href="/">
-        <Image
-          title="Musense Marketing"
-          src={logo.src}
-          alt="Musense Marketing"
-          width={logo.width}
-          height={logo.height}
-          style={{
-            width: '100%',
-            objectFit: 'contain'
-          }}
-        />
-      </a>
+      <Link className={`${styles['logo']} ${styles[position]}`} href="/">
+        <div>
+          <Image
+            title="Musense Marketing"
+            src={logo.src}
+            alt="Musense Marketing"
+            width={logo.width}
+            height={logo.height}
+            style={{
+              width: 'auto',
+              height: '100%',
+              objectFit: 'contain'
+            }}
+          />
+        </div>
+      </Link>
     )
 }

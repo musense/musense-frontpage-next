@@ -94,25 +94,28 @@
 
 @media (max-width: 1200px) and (min-width: 768px) {
   .service-box {
-    position: relative;
-    width: calc(15rem * 2 + 30vw);
-    margin: 2.8rem auto 0;
-    column-gap: 0rem;
-    row-gap: 16rem;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: flex-start;
     justify-items: center;
+    margin: 5rem auto 0;
+    position: relative;
+    width: fit-content;
+    width: 100vw;
+    height: 70rem;
+    justify-content: space-evenly;
+    gap: unset;
   }
 }
 
 @media (max-width: 768px) {
   .service-box {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: flex-start;
+    justify-items: center;
     margin: 5rem auto 0;
     position: relative;
-    width: -moz-fit-content;
     width: fit-content;
     width: 100vw;
     height: 70rem;

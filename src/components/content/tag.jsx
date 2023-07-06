@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/tag.css";
+// import "./css/tag.css";
 
 
 export default function Tag({ tagName, index }) {

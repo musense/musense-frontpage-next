@@ -1,9 +1,11 @@
+import Link from "next/link";
+
 export default function HeaderHashLink({ className, to }) {
 
   return (
-    <a
+    <Link
       className={className}
       href={`/${to}`}
-    ></a>
+    ></Link>
   );
 }

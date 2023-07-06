@@ -1,13 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './css/contactUs.module.css';
 import Modal from "./modal";
 import sendEmail from "@services/emailService";
 import EnterBox from "./EnterBox";
 import CheckBoxList from './CheckBoxList';
 import Image from 'next/image';
-
 import { contactUs, imageDown } from "@components/index/images";
-
+import { useAppContext } from "@store/context";
+import useInitial from "@services/useInitial";
+import useLoadImage from "@services/useLoadImage";
 
 const enterBoxList = [
   { title: '公司/品牌名稱', name: 'company-name', typ: 'text' },
@@ -17,27 +18,18 @@ const enterBoxList = [
 ]
 
 export default function ContactUs() {
+  const { state, dispatch } = useAppContext();
+  useInitial({
+    state,
+    dispatch
+  });
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [headerContent, setHeaderContent] = useState(null);
   const [bodyContent, setBodyContent] = useState(null);
-  const [contactUsImage, setContactUsImage] = useState(null);
-  const [imageDownImage, setImageDownImage] = useState();
 
-  useEffect(() => {
-    const clientWidth = window.innerWidth;
-    let contactUsImport,
-      imageDownImport;
-    if (clientWidth > 768) {
-      contactUsImport = contactUs.get('pc')
-      imageDownImport = imageDown.get('pc')
-    } else {
-      contactUsImport = contactUs.get('mobile')
-      imageDownImport = imageDown.get('mobile')
-    }
-    contactUsImport.then((res) => { setContactUsImage({ default: res.default }) })
-    imageDownImport.then((res) => { setImageDownImage({ default: res.default }) })
-  }, []);
+  const contactUsImage = useLoadImage(contactUs);
+  const imageDownImage = useLoadImage(imageDown);
 
   const checkBoxListRef = useRef(null);
   function getAskString(checkList) {
@@ -97,7 +89,7 @@ export default function ContactUs() {
   }
 
   return (
-    <div className={styles['contact-us-wrapper']}>
+    <div id="contact" className={styles['contact-us-wrapper']}>
       <Modal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
@@ -105,7 +97,6 @@ export default function ContactUs() {
         bodyContent={bodyContent}
       />
       {contactUsImage && <Image
-        id="contact"
         alt=""
         src={contactUsImage.default.src}
         width={contactUsImage.default.width}
@@ -117,9 +108,9 @@ export default function ContactUs() {
       />}
       <div className={styles['contact-us-content']}>
         <div className={styles['img-wrapper']}>
-         {imageDownImage && <Image
+          {imageDownImage && <Image
             alt=""
-            className={styles['image-down']} 
+            className={styles['image-down']}
             src={imageDownImage.default.src}
             width={imageDownImage.default.width}
             height={imageDownImage.default.height}

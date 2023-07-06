@@ -1,40 +1,62 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import styles from './pageTemplate.module.css'
+import { useAppContext } from "@store/context";
 
 const PageTemplate = ({
-    lastSelectedPageRef,
-    setCurrPage,
-    currentPage: currentPageProp,
+    currPage,
     totalPage,
     __MAX_SHOW_NUMBERS__ = 5
 }) => {
-    lastSelectedPageRef.current = currentPageProp
+    console.log("🚀 ~ file: pageTemplate.jsx:10 ~ currPage:", currPage)
+    const { state, dispatch } = useAppContext();
     const prevPage = useCallback(() => {
-        setCurrPage(page => page - 1)
-    }, [setCurrPage])
+        dispatch({
+            type: 'SET_CURRENT_PAGE',
+            payload: {
+                currPage: 'prev'
+            }
+        })
+    }, [])
     const nextPage = useCallback(() => {
-        setCurrPage(page => page + 1)
-    }, [setCurrPage])
+        dispatch({
+            type: 'SET_CURRENT_PAGE',
+            payload: {
+                currPage: 'next'
+            }
+        })
+    }, [])
     const setPage = useCallback((page) => {
-        setCurrPage(page)
-    }, [setCurrPage])
+        dispatch({
+            type: 'SET_CURRENT_PAGE',
+            payload: {
+                currPage: page
+            }
+        })
+    }, [])
 
     const [showArray, setShowArray] = useState(null);
     console.log("🚀 ~ file: pageTemplate.jsx:22 ~ showArray:", showArray)
-    const currentPage = currentPageProp
+    const currentPage = currPage
     const middleRightPoint = Math.ceil(__MAX_SHOW_NUMBERS__ / 2)
     const middleLeftPoint = Math.floor(__MAX_SHOW_NUMBERS__ / 2)
 
-    const anchorButton = ({ cb, styles, label, index = null, setSelectedPage }) => {
-        setSelectedPage
-        if (index === null) {
-            return (<a onClick={cb} value="<"
-                // href={`${localStorage.getItem('pathname')}`}
-                className={styles}>{decodeURIComponent(label)}</a>)
+    const anchorButton = ({
+        cb,
+        styles,
+        label,
+        index = null,
+    }) => {
+        const props = {
+            onClick: cb,
+            value: "<",
+            className: styles,
+            index: index,
         }
-        return (<a onClick={cb} value="<" key={index}
-            // href={`${localStorage.getItem('pathname')}`}
-            className={styles}>{decodeURIComponent(label)}</a>)
+        return (
+            <button {...props}>
+                {label}
+            </button>
+        )
     }
 
     useEffect(() => {
@@ -57,7 +79,7 @@ const PageTemplate = ({
                     anchorButton({
                         cb: () => { prevPage() },
                         styles: currentPage === 1 ? styles.displayNone : "",
-                        label: encodeURIComponent('<')
+                        label: ('<')
                     })
                 }
                 {totalPage - currentPage < middleLeftPoint && totalPage > __MAX_SHOW_NUMBERS__ && (
@@ -74,7 +96,7 @@ const PageTemplate = ({
                             index: index,
                             cb: () => setPage(item),
                             styles: currentPage === item ? styles.active : "",
-                            label: encodeURIComponent(item)
+                            label: (item)
                         })
                     })}
                 {currentPage < middleRightPoint && totalPage > __MAX_SHOW_NUMBERS__ && (
@@ -84,7 +106,7 @@ const PageTemplate = ({
                     anchorButton({
                         cb: () => nextPage(),
                         styles: currentPage === totalPage || totalPage === 0 ? styles.displayNone : "",
-                        label: encodeURIComponent('>')
+                        label: ('>')
                     })
                 }
             </div>

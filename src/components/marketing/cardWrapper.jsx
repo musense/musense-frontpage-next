@@ -1,84 +1,93 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Card from './card';
 import PageTemplate from "@components/page/pageTemplate";
-
+import { useRouter } from 'next/router';
+import { useAppContext } from "@store/context";
+import useInitial from "@services/useInitial";
 
 
 export default function CardWrapper({ contents }) {
+    console.log("🚀 ~ file: cardWrapper.jsx:10 ~ CardWrapper ~ contents:", contents)
+    const { state, dispatch } = useAppContext();
+    useInitial({
+        state,
+        dispatch
+    });
+    const router = useRouter();
+    console.log("🚀 ~ file: cardWrapper.jsx:17 ~ CardWrapper ~ state:", state)
+    console.log("🚀 ~ file: cardWrapper.jsx:17 ~ CardWrapper ~ router.query.type:", router.query.type)
 
     const cardWrapperRef = useRef(null)
     const lastSelectedPageRef = useRef(1)
     const __MAX_VIEW_COUNT__ = 6
 
-    const [__ALL_CONTENTS__, setAllContents] = useState(null);
     const [viewContents, setViewContents] = useState(null);
-    const state = {
-        clientWidth: 1920
-    }
-    const [totalPage, setTotalPage] = useState(null);
-    const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
         if (!contents) return
-        const data = [
-            ...contents,
-            ...contents,
-            ...contents,
-            ...contents,
-            ...contents,
-        ]
-        console.log("🚀 ~ file: cardWrapper.jsx:30 ~ useEffect ~ data:", data)
-        setTotalPage(Math.ceil(data.length / __MAX_VIEW_COUNT__));
-        setAllContents(data)
+        console.log("🚀 ~ file: cardWrapper.jsx:30 ~ useEffect ~ contents:", contents)
+        dispatch({
+            type: "SET_ALL_CONTENTS",
+            payload: {
+                contents: contents,
+            }
+        })
     }, [contents]);
 
+    useEffect(() => {
+        if (!state.viewContents) return
+        setViewContents(state.viewContents)
+    }, [state.viewContents]);
+
     useMemo(() => {
-        if (!__ALL_CONTENTS__) return
+        if (!state.contents) return
         console.log("🚀 ~ file: cardWrapper.jsx:36 ~ useMemo ~ lastSelectedPageRef.current:", lastSelectedPageRef.current)
-        console.log("🚀 ~ file: cardWrapper.jsx:36 ~ useMemo ~ currPage:", currPage)
-        const start = (currPage - 1) * __MAX_VIEW_COUNT__
+        console.log("🚀 ~ file: cardWrapper.jsx:36 ~ useMemo ~ state.currTotalPage:", state.currTotalPage)
+        const start = (state.currTotalPage - 1) * __MAX_VIEW_COUNT__
         const end = start + __MAX_VIEW_COUNT__
-        const slicedContents = __ALL_CONTENTS__.slice(start, end)
-        if (lastSelectedPageRef.current > currPage) {
-            setViewContents(contents => contents ? [...contents, ...slicedContents] : slicedContents)
-            cardWrapperRef.current.classList.add("toRight")
-        } else if (lastSelectedPageRef.current < currPage) {
-            setViewContents(contents => contents ? [...slicedContents, ...contents] : slicedContents)
-            cardWrapperRef.current.classList.add("toLeft")
-        } else if (lastSelectedPageRef.current === currPage && currPage === 1) {
+        const slicedContents = state.contents.slice(start, end)
+        if (lastSelectedPageRef.current > state.currTotalPage) {
+            setViewContents(contents => contents
+                // ? [...contents, ...slicedContents] 
+                ? slicedContents
+                : slicedContents)
+            // cardWrapperRef.current.classList.add("toRight")
+        } else if (lastSelectedPageRef.current < state.currTotalPage) {
+            setViewContents(contents => contents
+                // ? [...slicedContents, ...contents] 
+                ? slicedContents
+                : slicedContents)
+            // cardWrapperRef.current.classList.add("toLeft")
+        } else if (lastSelectedPageRef.current === state.currTotalPage && state.currTotalPage === 1) {
             setViewContents(slicedContents)
         }
-        setTimeout(() => {
-            if (cardWrapperRef.current.classList.contains("toRight")) {
-                setViewContents(contents => contents.length > 6 ? contents.slice(__MAX_VIEW_COUNT__, __MAX_VIEW_COUNT__ * 2) : contents)
-                cardWrapperRef.current.classList.remove("toRight")
-            } else if (cardWrapperRef.current.classList.contains("toLeft")) {
-                setViewContents(contents => contents.length > 6 ? contents.slice(0, __MAX_VIEW_COUNT__) : contents)
-                cardWrapperRef.current.classList.remove("toLeft")
-            }
-        }, 500)
-    }, [__ALL_CONTENTS__, currPage]);
+        // setTimeout(() => {
+        //     if (cardWrapperRef.current.classList.contains("toRight")) {
+        //         setViewContents(contents => contents.length > 6 ? contents.slice(__MAX_VIEW_COUNT__, __MAX_VIEW_COUNT__ * 2) : contents)
+        //         cardWrapperRef.current.classList.remove("toRight")
+        //     } else if (cardWrapperRef.current.classList.contains("toLeft")) {
+        //         setViewContents(contents => contents.length > 6 ? contents.slice(0, __MAX_VIEW_COUNT__) : contents)
+        //         cardWrapperRef.current.classList.remove("toLeft")
+        //     }
+        // }, 500)
+    }, [state.contents, state.currMaxViewCount, state.currTotalPage]);
 
 
     const Page = useCallback(() => {
         if (state.clientWidth < 400) {
             return <PageTemplate
-                lastSelectedPageRef={lastSelectedPageRef}
-                setCurrPage={setCurrPage}
-                currentPage={currPage}
-                totalPage={totalPage}
+                currPage={state.currPage}
+                totalPage={state.currTotalPage}
                 __MAX_SHOW_NUMBERS__={3}
             />
         } else {
             return <PageTemplate
-                lastSelectedPageRef={lastSelectedPageRef}
-                setCurrPage={setCurrPage}
-                currentPage={currPage}
-                totalPage={totalPage}
+                currPage={state.currPage}
+                totalPage={state.currTotalPage}
                 __MAX_SHOW_NUMBERS__={5}
             />
         }
-    }, [setCurrPage, currPage, state.clientWidth, totalPage])
+    }, [state.clientWidth, state.currPage, state.currTotalPage])
 
     return <>
         <div ref={cardWrapperRef} className='card-wrapper'>
@@ -87,15 +96,12 @@ export default function CardWrapper({ contents }) {
                 return (
                     <Card
                         key={index}
-                        tag={content.tag}
-                        imgSrc={content.img.src}
-                        imgAltText={content.img.altText}
-                        id={index}
-                        content={content.content}
-                        createDate={content.createDate} />
+                        id={content._id}
+                        content={content}
+                    />
                 );
             })}
         </div>
-        <Page />
+       {!state.filteredActive.seeMore && <Page />}
     </>
 }

@@ -11,14 +11,6 @@
   transform: translateX(-50%);
 }
 
-.footer-wrapper.marketing {
-  margin-top: 0;
-}
-
-.footer-wrapper.content {
-  margin-top: -1px;
-}
-
 .footer-wrapper * div {
   background-repeat: no-repeat;
   background-position: center;
@@ -151,15 +143,6 @@
     padding-top: 3rem;
     box-sizing: border-box;
   }
-
-  .footer-wrapper.marketing {
-    margin-top: 4rem;
-  }
-
-  .footer-wrapper.content {
-    margin-top: 2rem;
-  }
-
 
   .footer-box {
     align-items: center;

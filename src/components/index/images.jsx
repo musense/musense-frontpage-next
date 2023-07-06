@@ -64,6 +64,11 @@ const imageDown = new Map([
     ['mobile', import('@assets/mobile/contact/image_down.webp')],
 ])
 
+const triangleRangeOrange = new Map([
+    ['pc', import('@assets/content/triangleRangeOrange.webp')],
+    ['mobile', import('@assets/content/triangleRangeOrange.webp')],
+])
+
 export {
     bg,
     welcome,
@@ -75,5 +80,6 @@ export {
     triangleRangeOrange_left,
     ourService,
     contactUs,
-    imageDown
+    imageDown,
+    triangleRangeOrange
 } 

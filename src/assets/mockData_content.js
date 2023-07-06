@@ -1,4 +1,7 @@
-export const img = { src: '/assets/content/topBanner.webp', altText: '是咖啡店，也是博物館' }
+export const img = { 
+    src: import('@assets/content/topBanner.webp'), 
+    altText: '是咖啡店，也是博物館' 
+}
 export const content = {
     tag: '文創商品,咖啡',
     title:
@@ -54,7 +57,7 @@ export const tags = [
 ]
 
 export const popularContents = [
-    { img: { src: '/assets/content/extendReading_image.webp', altText: '台南天下大飯店' }, title: `本事設計操刀！「台南天下大飯店」改裝搖身變：古銅曖昧藍與華麗摩登的時髦旅店！` },
-    { img: { src: '/assets/content/extendReading_image.webp', altText: '台南天下大飯店' }, title: `本事設計操刀！「台南天下大飯店」改裝搖身變：古銅曖昧藍與華麗摩登的時髦旅店！` },
-    { img: { src: '/assets/content/extendReading_image.webp', altText: '台南天下大飯店' }, title: `本事設計操刀！「台南天下大飯店」改裝搖身變：古銅曖昧藍與華麗摩登的時髦旅店！` },
+    { img: { src: import('@assets/content/extendReading_image.webp'), altText: '台南天下大飯店' }, title: `本事設計操刀！「台南天下大飯店」改裝搖身變：古銅曖昧藍與華麗摩登的時髦旅店！` },
+    { img: { src: import('@assets/content/extendReading_image.webp'), altText: '台南天下大飯店' }, title: `本事設計操刀！「台南天下大飯店」改裝搖身變：古銅曖昧藍與華麗摩登的時髦旅店！` },
+    { img: { src: import('@assets/content/extendReading_image.webp'), altText: '台南天下大飯店' }, title: `本事設計操刀！「台南天下大飯店」改裝搖身變：古銅曖昧藍與華麗摩登的時髦旅店！` },
 ]

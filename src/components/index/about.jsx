@@ -3,6 +3,9 @@ import styles from './css/about.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Image from 'next/image';
+import { useAppContext } from "@store/context";
+import useInitial from "@services/useInitial";
+import useLoadImage from "@services/useLoadImage";
 
 import {
   bg,
@@ -16,96 +19,21 @@ import {
 } from "@components/index/images";
 
 export default function About() {
+  const { state, dispatch } = useAppContext();
+  useInitial({
+    state,
+    dispatch
+  });
 
-  const [backgroundImage, setBackgroundImage] = useState(null);
-  const [welcomeImage, setWelcomeImage] = useState(null);
-  const [musenseCanHelpImage, setMusenseCanHelpImage] = useState(null);
-  const [topImage, setTopImage] = useState(null);
-  const [replyImage, setReplyImage] = useState(null);
-  const [triangleBoxImage, setTriangleBoxImage] = useState(null);
-  const [triangleRangeOrangeRightImage, setTriangleRangeOrangeRightImage] = useState(null);
-  const [triangleRangeOrangeLeftImage, setTriangleRangeOrangeLeftImage] = useState(null);
+  const backgroundImage = useLoadImage(bg);
+  const welcomeImage = useLoadImage(welcome);
+  const musenseCanHelpImage = useLoadImage(musenseCanHelp);
+  const topImage = useLoadImage(top);
+  const replyImage = useLoadImage(reply);
+  const triangleBoxImage = useLoadImage(triangleBox);
+  const triangleRangeOrangeRightImage = useLoadImage(triangleRangeOrange_right);
+  const triangleRangeOrangeLeftImage = useLoadImage(triangleRangeOrange_left);
 
-  useEffect(() => {
-    const clientWidth = window.innerWidth;
-
-    let bgImport,
-      welcomeImport,
-      musenseCanHelpImport,
-      topImport,
-      replyImport,
-      trBImport,
-      troRImport,
-      troLImport
-    if (clientWidth > 768) {
-      bgImport = bg.get('pc')
-      welcomeImport = welcome.get('pc')
-      musenseCanHelpImport = musenseCanHelp.get('pc')
-      topImport = top.get('pc')
-      replyImport = reply.get('pc')
-      trBImport = triangleBox.get('pc')
-      troRImport = triangleRangeOrange_right.get('pc')
-      troLImport = triangleRangeOrange_left.get('pc')
-    } else {
-      bgImport = bg.get('mobile')
-      welcomeImport = welcome.get('mobile')
-      musenseCanHelpImport = musenseCanHelp.get('mobile')
-      topImport = top.get('mobile')
-      replyImport = reply.get('mobile')
-      trBImport = triangleBox.get('mobile')
-      troRImport = triangleRangeOrange_right.get('mobile')
-      troLImport = triangleRangeOrange_left.get('mobile')
-    }
-    bgImport.then(res => setBackgroundImage({ default: res.default }))
-    welcomeImport.then(res => setWelcomeImage({ default: res.default }))
-    musenseCanHelpImport.then(res => {
-      if (!res.after) {
-        setMusenseCanHelpImage({
-          default: res.default,
-          after: null
-        })
-      } else {
-        const defaultImport = res.default
-        const afterImport = res.after
-        Promise.all([defaultImport, afterImport]).then(res => {
-          console.log("🚀 ~ file: about.jsx:63 ~ Promise.all ~ res:", res)
-          setMusenseCanHelpImage({
-            default: res[0].default,
-            after: res[1].default,
-          })
-        })
-      }
-
-    })
-    topImport.then(res => { setTopImage({ default: res.default }) })
-    replyImport.then(res => {
-      if (!res.after) {
-        setReplyImage({
-          default: res.default,
-          before: null,
-          after: null,
-        })
-      } else {
-        const defaultImport = res.default
-        const afterImport = res.after
-        const beforeImport = res.before
-        Promise.all([defaultImport, afterImport, beforeImport]).then(res => {
-          console.log("🚀 ~ file: about.jsx:63 ~ Promise.all ~ res:", res)
-          setReplyImage({
-            default: res[0].default,
-            after: res[1].default,
-            before: res[2].default,
-          })
-        })
-      }
-    })
-    trBImport.then(res => { setTriangleBoxImage({ default: res.default }) })
-    troRImport.then(res => { setTriangleRangeOrangeRightImage({ default: res.default }) })
-    troLImport.then(res => { setTriangleRangeOrangeLeftImage({ default: res.default }) })
-  }, []);
-
-  console.log("🚀 ~ file: about.jsx:36 ~ backgroundImage ~ backgroundImage:", backgroundImage)
-  console.log("🚀 ~ file: about.jsx:41 ~ About ~ musenseCanHelpImage:", musenseCanHelpImage)
   useEffect(() => {
 
     AOS.init({
@@ -115,8 +43,6 @@ export default function About() {
       easing: 'ease-in-out',
     });
   }, []);
-
-
   return (
     <div className={styles['about-us']}>
       {backgroundImage && <Image
@@ -147,19 +73,28 @@ export default function About() {
         width={welcomeImage.default.width}
         height={welcomeImage.default.height}
         style={{
-          // width: '100%',
-          objectFit: 'contain'
+          objectFit: 'contain',
+          objectPosition: '50% 50%',
         }}
       />}
-
-      <BubbleBox />
-
-      <BubbleBoxMobile />
-
+      {state.clientWidth > 768
+        ? <BubbleBox />
+        : <BubbleBoxMobile />
+      }
       {musenseCanHelpImage
         ? musenseCanHelpImage.after
           ? (
             <>
+              <Image
+                alt=""
+                className={styles['musense-can-help']}
+                src={musenseCanHelpImage.default.src}
+                width={musenseCanHelpImage.default.width}
+                height={musenseCanHelpImage.default.height}
+                style={{
+                  width: '100%',
+                  objectFit: 'contain'
+                }} />
               <Image
                 alt=""
                 className={styles['musense-can-help']}
@@ -170,16 +105,6 @@ export default function About() {
                   marginTop: '1rem',
                   width: '16rem',
                   height: '1.5rem',
-                  width: '100%',
-                  objectFit: 'contain'
-                }} />
-              <Image
-                alt=""
-                className={styles['musense-can-help']}
-                src={musenseCanHelpImage.default.src}
-                width={musenseCanHelpImage.default.width}
-                height={musenseCanHelpImage.default.height}
-                style={{
                   width: '100%',
                   objectFit: 'contain'
                 }} />
@@ -213,11 +138,10 @@ export default function About() {
                 width={replyImage.before.width}
                 height={replyImage.before.height}
                 style={{
+                  objectFit: 'contain',
                   marginTop: '1rem',
-                  width: '11rem',
                   height: '3rem',
                   width: '100%',
-                  objectFit: 'contain'
                 }}
               />
               <Image
@@ -226,10 +150,10 @@ export default function About() {
                 width={replyImage.default.width}
                 height={replyImage.default.height}
                 style={{
-                  width: 'calc(100% - 4rem)',
                   objectFit: 'contain',
-                  margin: '2rem 2rem 0',
-                  height: '2rem',
+                  marginTop: '2rem',
+                  width: '100%',
+                  height: '1.8rem',
                 }}
               />
               <Image
@@ -238,10 +162,10 @@ export default function About() {
                 width={replyImage.after.width}
                 height={replyImage.after.height}
                 style={{
-                  margin: '0 2.5rem',
-                  width: 'calc(100% - 5rem)',
                   objectFit: 'contain',
-                  height: '1.5rem',
+                  marginTop: '0.5rem',
+                  width: '100%',
+                  height: '0.9rem',
                 }}
               />
             </>
@@ -257,6 +181,7 @@ export default function About() {
                   marginTop: '3rem',
                   width: '100%',
                   objectFit: 'contain',
+                  objectPosition: '50% 50%',
                 }}
               />
             </>

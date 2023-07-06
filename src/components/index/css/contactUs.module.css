@@ -337,7 +337,7 @@
   .enter-box {
     --enter-box-height: 3.1rem;
     font-size: 1.6rem;
-    background-size: cover;
+    background-size: contain;
   }
 
   .enter-box.large {

@@ -1,9 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import HeaderScrollLink from './HeaderScrollLink';
+import { useAppContext } from "@store/context";
 
 export default function NavWrapper({ active, pathname, unCheck, headerForceHide = null }) {
-
+  const { state, dispatch } = useAppContext();
+  console.log("🚀 ~ file: NavWrapper.jsx:7 ~ NavWrapper ~ state:", state)
   const navRef = useRef(null);
+
+  const aboutRef = useRef(null);
+  const serviceRef = useRef(null);
+  const contactRef = useRef(null);
+  const marketingRef = useRef(null);
 
   const navHandler = useCallback((e) => {
     console.log(e.type)
@@ -16,22 +23,19 @@ export default function NavWrapper({ active, pathname, unCheck, headerForceHide 
 
   const serviceOffset = useMemo(() => {
     let offset = -150
-    const clientWidth = window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth;
-    if (clientWidth <= 1200)
-      offset = -100
-    return offset;
-  }, [])
-  const contactUsOffset = useMemo(() => {
-    let offset = -150
-    const clientWidth = window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth;
+    const clientWidth = state.clientWidth
     if (clientWidth <= 768)
       offset = -80
     return offset;
-  }, [])
+  }, [state.clientWidth])
+  const contactUsOffset = useMemo(() => {
+    let offset = -150
+    const clientWidth = state.clientWidth
+    if (clientWidth <= 768)
+      offset = -80
+      // offset = -2000
+    return offset;
+  }, [state.clientWidth])
   console.log("🚀 ~ file: NavWrapper.jsx:39 ~ contactUsOffset ~ contactUsOffset:", contactUsOffset)
 
   useEffect(() => {
@@ -58,77 +62,34 @@ export default function NavWrapper({ active, pathname, unCheck, headerForceHide 
     {pathname === '/' && (
       <ul>
         <li>
-          {/* offset to the most top */}
           <HeaderScrollLink
-            currentId="a-about"
+            ref={aboutRef}
             offset={-200}
-            to='about'
+            to='#about'
             name='about'
             callbackHandler={callbackHandler} />
         </li>
         <li>
           <HeaderScrollLink
-            currentId="a-service"
+            ref={serviceRef}
             offset={serviceOffset}
-            to='service'
+            to='#service'
             name='service'
             callbackHandler={callbackHandler} />
         </li>
         <li>
           <HeaderScrollLink
-            currentId="a-contactUs"
+            ref={contactRef}
             offset={contactUsOffset}
-            to='contact'
+            to='#contact'
             name='contact'
             callbackHandler={callbackHandler} />
         </li>
         <li>
           <HeaderScrollLink
-            currentId="a-marketing"
+            ref={marketingRef}
             offset={0}
-            to='/marketing'
-            name='marketing'
-            disableScroll
-            callbackHandler={callbackHandler} />
-        </li>
-      </ul>
-    )}
-    {(pathname === '/marketing' || pathname.startsWith('/content')) && (
-      <ul>
-        <li>
-          <HeaderScrollLink
-            currentId="a-about"
-            offset={0}
-            to='/'
-            name='about'
-            disableScroll
-            callbackHandler={callbackHandler} />
-        </li>
-        <li>
-          <HeaderScrollLink
-            currentId="a-service"
-            offset={-10}
-            to='/'
-            name='service'
-            disableScroll
-            callbackHandler={callbackHandler} />
-        </li>
-        <li>
-          <HeaderScrollLink
-            currentId="a-contactUs"
-            offset={-10}
-            to='/'
-            name='contact'
-            disableScroll
-            callbackHandler={callbackHandler} />
-        </li>
-        <li
-
-        >
-          <HeaderScrollLink
-            currentId="a-marketing"
-            offset={-10}
-            to='/marketing'
+            to={process.env.NEXT_PUBLIC_TREND_SITE}
             name='marketing'
             disableScroll
             callbackHandler={callbackHandler} />

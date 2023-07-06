@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styles from './css/serviceBox.module.css';
 
 import { instance } from "@services/AxiosInstance";
+import Link from 'next/link';
 
 
 const namesMap = [
@@ -47,7 +48,7 @@ export default function ServiceBox({ apiUrl }) {
   }
 
   useEffect(() => {
-    // getTitleContentsByCategoryAsync()
+    getTitleContentsByCategoryAsync()
   }, []);
 
 
@@ -60,8 +61,8 @@ export default function ServiceBox({ apiUrl }) {
           ? serviceItem.originalUrl
           : serviceItem.sitemapUrl
         : ''
-      // console.log("🚀 ~ file: serviceBox.jsx:55 ~ serviceHeader ~ serviceItem:", serviceItem)
-      return <a href={url} key={index} className={styles[name.className]}>
+      console.log("🚀 ~ file: serviceBox.jsx:55 ~ serviceHeader ~ serviceItem:", serviceItem)
+      return <Link href={url} key={index} className={styles[name.className]}>
         <div className={styles['service-header']}>
           <div>{name.zn_title}</div>
           <div>{name.en_title}</div>
@@ -69,7 +70,7 @@ export default function ServiceBox({ apiUrl }) {
         <div className={styles['service-body']}>
           {name.content}
         </div>
-      </a>;
+      </Link>;
     });
   }, [item])
 

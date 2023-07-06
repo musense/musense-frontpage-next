@@ -29,6 +29,8 @@
   }
 
   .our-service-wrapper {
+    margin-top: 4rem;
+    overflow-x: hidden;
     width: 100%;
     gap: 5vw;
   }
@@ -36,10 +38,9 @@
 
 @media (max-width: 768px) {
   .our-service-wrapper {
-    margin-top: 3.6rem;
+    margin-top: 4rem;
     overflow-x: hidden;
     gap: unset;
-    width: 100%;
   }
 
   .our-service {

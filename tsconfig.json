@@ -29,6 +29,7 @@
       "@styles/*"    : ["src/styles/*"],
       "@utils/*"    : ["src/utils/*"],
       "@types/*"    : ["src/types/*"],
+      "@store/*"    : ["src/store/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/pages/_app.jsx", "src/services/emailService.js"],

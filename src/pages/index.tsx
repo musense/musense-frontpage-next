@@ -1,9 +1,6 @@
-import Layout from '../components/Navbar/Layout.jsx';
-import About from '@components/index/about';
-import OurService from '@components/index/ourService';
-import ContactUs from '@components/index/contactUs';
 import { Main } from '@components/Main/Main';
 import { Meta } from '@layouts/Meta';
+import Index from '@components/index/index';
 
 const Home = () => {
   return (
@@ -17,11 +14,11 @@ const Home = () => {
         />
       }
     >
-      <About />
-      <OurService apiUrl={process.env.NEXT_PUBLIC_SERVER_URL} />
-      <ContactUs />
+      <Index apiUrl={process.env.NEXT_PUBLIC_SERVER_URL} />
     </Main>
   );
 };
 
 export default Home;
+
+

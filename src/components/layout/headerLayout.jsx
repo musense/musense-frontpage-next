@@ -8,8 +8,15 @@ import Hamburger from './hamburger';
 import NavWrapper from './NavWrapper';
 import NavBackDrop from './NavBackDrop';
 import { useState, useEffect, useRef } from 'react';
+import { useAppContext } from "@store/context";
+import useInitial from '@services/useInitial';
 
 export default function HeaderLayout() {
+  const { state, dispatch } = useAppContext();
+  useInitial({
+    state,
+    dispatch
+  });
   useRefresh()
   const pathname = usePathname();
   const hamburgerRef = useRef(null);

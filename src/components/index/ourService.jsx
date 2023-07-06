@@ -3,30 +3,25 @@ import styles from './css/ourService.module.css';
 import ServiceBox from "./serviceBox";
 import WhyMusense from "./whyMusense";
 import Image from 'next/image';
+import { useAppContext } from "@store/context";
+import useInitial from "@services/useInitial";
 
 // import ourService from "@assets/index/ourService.webp";
 import { ourService } from "@components/index/images";
-
+import useLoadImage from "@services/useLoadImage";
 
 export default function OurService({ apiUrl }) {
+  const { state, dispatch } = useAppContext();
+  useInitial({
+    state,
+    dispatch
+  });
 
-  const [ourServiceImage, setOurServiceImage] = useState(null);
-  useEffect(() => {
-    const clientWidth = window.innerWidth;
-    let ourServiceImport
-    if (clientWidth > 768) {
-      ourServiceImport = ourService.get('pc')
-    } else {
-      ourServiceImport = ourService.get('mobile')
-    }
-    ourServiceImport.then(res => setOurServiceImage({ default: res.default }))
-  }, []);
+  const ourServiceImage = useLoadImage(ourService);
   return (
-    <div className={styles['our-service-wrapper']}>
+    <div id='service' className={styles['our-service-wrapper']}>
       {ourServiceImage && <Image
-        id='service'
         alt=""
-        className={styles['our-service']}
         src={ourServiceImage.default.src}
         width={ourServiceImage.default.width}
         height={ourServiceImage.default.height}
