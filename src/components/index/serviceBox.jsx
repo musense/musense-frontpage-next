@@ -39,11 +39,7 @@ export default function ServiceBox({ apiUrl }) {
   async function getTitleContentsByCategoryAsync() {
     const res = await instance(apiUrl).get(`/categories`)
       .then(res => res.data)
-    const { data, totalCount, totalPages } = res;
-    // console.table(data)
-    // console.log("🚀 ~ file: serviceBox.jsx:18 ~ getTitleContentsByCategoryAsync ~ totalCount:", totalCount)
-    // console.log("🚀 ~ file: serviceBox.jsx:18 ~ getTitleContentsByCategoryAsync ~ totalPages:", totalPages)
-
+    const { data } = res;
     setItem(data)
   }
 
@@ -53,14 +49,9 @@ export default function ServiceBox({ apiUrl }) {
 
 
   const serviceHeader = useMemo(() => {
-    // if (!item) return
     return namesMap.map((name, index) => {
       const serviceItem = item && item.find(item => item.keyName === name.en_title.replace(/\n/g, ' '))
-      const url = serviceItem
-        ? serviceItem.originalUrl
-          ? serviceItem.originalUrl
-          : serviceItem.sitemapUrl
-        : ''
+      const url = serviceItem ? serviceItem.sitemapUrl : '#'
       console.log("🚀 ~ file: serviceBox.jsx:55 ~ serviceHeader ~ serviceItem:", serviceItem)
       return <Link href={url} key={index} className={styles[name.className]}>
         <div className={styles['service-header']}>
