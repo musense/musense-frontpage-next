@@ -37,7 +37,7 @@ export default function About() {
   useEffect(() => {
 
     AOS.init({
-      offset: 120,
+      offset: 500,
       delay: 50, // values from 0 to 3000, with step 50ms
       duration: 400, // values from 0 to 3000, with step 50ms);
       easing: 'ease-in-out',
