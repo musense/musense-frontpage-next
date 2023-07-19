@@ -197,7 +197,8 @@ export default function About() {
         style={{
           height: '14rem',
           width: '100%',
-          objectFit: 'contain'
+          objectFit: 'contain',
+          objectPosition: 'right',
         }}
       />
       }
