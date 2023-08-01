@@ -27,7 +27,8 @@ export default function Logo({ active, color = 'gray', position = "header" }) {
           width={logo.width}
           height={logo.height}
           style={{
-            width: 'auto',
+            width: '100%',
+            maxWidth: '27rem',
             height: '100%',
             objectFit: 'contain'
           }}
@@ -44,7 +45,8 @@ export default function Logo({ active, color = 'gray', position = "header" }) {
             width={logo.width}
             height={logo.height}
             style={{
-              width: 'auto',
+              width: '100%',
+              maxWidth: '27rem',
               height: '100%',
               objectFit: 'contain'
             }}
