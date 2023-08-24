@@ -50,10 +50,6 @@ const Meta = (props: IMetaProps) => {
           href={`${router.basePath}/favicon.ico`}
           key='favicon'
         />
-        <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1'
-        ></meta>
       </Head>
       <NextSeo
         title={props.title}
@@ -68,7 +64,7 @@ const Meta = (props: IMetaProps) => {
           site_name: AppConfig.site_name,
           images: [
             {
-              url: `${router.basePath}/fb_musense_image.jpg`,
+              url: `${props.canonical}/fb_musense_image.jpg`,
               width: 1200,
               height: 628,
               alt: props.title,
