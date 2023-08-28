@@ -10,7 +10,7 @@ import useInitial from "@services/useInitial";
 import { ourService } from "@components/index/images";
 import useLoadImage from "@services/useLoadImage";
 
-export default function OurService({ apiUrl }) {
+export default function OurService() {
   const { state, dispatch } = useAppContext();
   useInitial({
     state,
@@ -30,7 +30,7 @@ export default function OurService({ apiUrl }) {
           objectFit: 'contain'
         }}
       />}
-      <ServiceBox apiUrl={apiUrl} />
+      <ServiceBox />
 
       <WhyMusense />
     </div>

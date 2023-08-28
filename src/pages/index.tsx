@@ -1,6 +1,6 @@
-import { Main } from '@components/Main/Main';
-import { Meta } from '@layouts/Meta';
-import Index from '@components/index/index';
+import { Main } from '@components/Main/Main'
+import { Meta } from '@layouts/Meta'
+import Index from '@components/index/index'
 
 const Home = () => {
   return (
@@ -14,11 +14,10 @@ const Home = () => {
         />
       }
     >
-      <Index apiUrl={process.env.NEXT_PUBLIC_SERVER_URL} />
+      <Index />
+      {/* <Index apiUrl={process.env.NEXT_PUBLIC_SERVER_URL} /> */}
     </Main>
-  );
-};
+  )
+}
 
-export default Home;
-
-
+export default Home
